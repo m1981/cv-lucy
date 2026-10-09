@@ -1,18 +1,25 @@
 #!/bin/bash
 
-# 1. Przejdź do folderu ze skryptem (src/)
-cd "$(dirname "$0")" || exit
+echo "========================================"
+echo "   Generator CV (Base + Overrides)      "
+echo "========================================"
+echo ""
+echo "Dostępne profile w folderze data/applications/:"
+ls -1 data/applications/*.yaml 2>/dev/null | xargs -n 1 basename | sed 's/\.yaml$//' || echo "  (brak profili - wygeneruje tylko bazę)"
+echo ""
 
-# 2. Sprawdź, czy 'uv' jest zainstalowane w systemie
-if ! command -v uv &> /dev/null; then
-    echo "Błąd: Narzędzie 'uv' nie jest zainstalowane."
-    echo "Zainstaluj je wpisując w terminalu: brew install uv"
-    exit 1
+read -p "Wpisz nazwę profilu (np. nowak) lub wciśnij ENTER dla bazy: " profile_name
+
+if [ -z "$profile_name" ]; then
+    uv run build.py
+else
+    # Automatycznie dodajemy .yaml jeśli użytkownik tego nie zrobił
+    if [[ "$profile_name" != *.yaml ]]; then
+        profile_name="${profile_name}.yaml"
+    fi
+
+    # Automatycznie budujemy pełną ścieżkę
+    full_path="data/applications/$profile_name"
+
+    uv run build.py "$full_path"
 fi
-
-echo "Uruchamianie przez uv..."
-
-# 3. uv run automatycznie ogarnia venv, instaluje zależności z pyproject.toml i odpala skrypt
-uv run build.py
-
-echo "Gotowe! Plik wygenerowany w: $(pwd)/cv_gotowe.html"

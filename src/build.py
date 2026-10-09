@@ -1,38 +1,84 @@
 import yaml
-import base64
+import sys
 import os
+import base64
+from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 
-# 1. Wczytanie danych z pliku YAML
-with open('cv_data.yaml', 'r', encoding='utf-8') as file:
-    cv_data = yaml.safe_load(file)
 
-# --- NOWOŚĆ: Automatyczne osadzanie zdjęcia (Base64) ---
-# Pobieramy ścieżkę do zdjęcia z pliku YAML
-photo_path = cv_data['personal_info'].get('photo_path')
+def deep_merge(base, override):
+    """Rekurencyjnie łączy dwa słowniki (nadpisuje bazę danymi z override)"""
+    for key, value in override.items():
+        if isinstance(value, dict) and key in base and isinstance(base[key], dict):
+            deep_merge(base[key], value)
+        else:
+            base[key] = value
+    return base
 
-# Jeśli ścieżka nie jest pusta i plik faktycznie istnieje na dysku
-if photo_path and os.path.exists(photo_path):
-    # Otwieramy zdjęcie i konwertujemy je na ciąg znaków Base64
-    with open(photo_path, "rb") as img_file:
-        encoded_string = base64.b64encode(img_file.read()).decode('utf-8')
 
-        # Zastępujemy zwykłą ścieżkę gotowym kodem data:URI
-        # Zakładam format PNG (zgodnie z przesłanym obrazkiem)
-        cv_data['personal_info']['photo_path'] = f"data:image/png;base64,{encoded_string}"
-else:
-    print(f"Ostrzeżenie: Nie znaleziono pliku ze zdjęciem: '{photo_path}'")
-# --------------------------------------------------------
+def main():
+    # 1. Ustalenie ścieżek w nowej architekturze
+    base_yaml_path = Path('data/base.yaml')
 
-# 2. Konfiguracja środowiska Jinja2
-env = Environment(loader=FileSystemLoader('.'))
-template = env.get_template('template.html')
+    if len(sys.argv) > 1:
+        app_yaml_path = Path(sys.argv[1])
+        output_filename = f"cv_{app_yaml_path.stem}.html"
+    else:
+        app_yaml_path = None
+        output_filename = "cv_base.html"
 
-# 3. Renderowanie HTML z wstrzykniętymi danymi
-output_html = template.render(cv_data)
+    # 2. Wczytanie bazy (Single Source of Truth)
+    if not base_yaml_path.exists():
+        print(f"[BŁĄD] Nie znaleziono pliku bazowego: {base_yaml_path}")
+        sys.exit(1)
 
-# 4. Zapisanie gotowego pliku
-with open('cv_gotowe.html', 'w', encoding='utf-8') as file:
-    file.write(output_html)
+    with open(base_yaml_path, 'r', encoding='utf-8') as f:
+        cv_data = yaml.safe_load(f)
 
-print("Sukces! Wygenerowano plik cv_gotowe.html")
+    # 3. Wczytanie i nałożenie nadpisań (jeśli podano plik profilu)
+    if app_yaml_path and app_yaml_path.exists():
+        with open(app_yaml_path, 'r', encoding='utf-8') as f:
+            app_data = yaml.safe_load(f)
+            if app_data:
+                cv_data = deep_merge(cv_data, app_data)
+        print(f"[*] Nałożono profil: {app_yaml_path.name}")
+    else:
+        print("[*] Generowanie wersji bazowej (brak profilu).")
+
+    # 4. Magia Base64 - osadzanie zdjęcia w HTML
+    photo_path_str = cv_data.get('personal_info', {}).get('photo_path')
+    if photo_path_str:
+        photo_path = Path(photo_path_str)
+        if photo_path.exists():
+            with open(photo_path, "rb") as img_file:
+                encoded_string = base64.b64encode(img_file.read()).decode('utf-8')
+                # Rozpoznanie formatu (png/jpg)
+                ext = photo_path.suffix.lower().replace('.', '')
+                mime_type = f"image/{ext}" if ext in ['png', 'jpeg', 'jpg'] else "image/png"
+                # Podmiana ścieżki na gotowy kod Base64
+                cv_data['personal_info']['photo_path'] = f"data:{mime_type};base64,{encoded_string}"
+        else:
+            print(f"[!] Ostrzeżenie: Nie znaleziono zdjęcia pod ścieżką: '{photo_path}'")
+
+    # 5. Konfiguracja Jinja2 i ładowanie szablonu
+    env = Environment(loader=FileSystemLoader('templates'))
+    try:
+        template = env.get_template('template.html')
+    except Exception as e:
+        print(f"[BŁĄD] Nie można załadować szablonu 'templates/template.html': {e}")
+        sys.exit(1)
+
+    # 6. Renderowanie i zapis
+    output_html = template.render(cv_data)
+
+    os.makedirs('output', exist_ok=True)
+    output_path = Path('output') / output_filename
+
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(output_html)
+
+    print(f"[+] Sukces! Plik wygenerowany w: {output_path.absolute()}")
+
+
+if __name__ == "__main__":
+    main()

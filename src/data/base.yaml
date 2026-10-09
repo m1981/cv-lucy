@@ -4,7 +4,7 @@ personal_info:
   phone: "793-653-854"
   email: "lucyna.nakiewicz@gmail.com"
   location: "Bydgoszcz"
-  photo_path: "lucy.png" # Zostaw puste "", jeśli nie masz
+  photo_path: "assets/lucy.png" # Zostaw puste "", jeśli nie masz
   summary: >
     Posiadam 15 lat doświadczenia w administracji samorządowej, gdzie rozwijałam swoje umiejętności komunikacyjne i organizacyjne. Doskonale radzę sobie z obsługą korespondencji oraz z różnymi pracami administracyjnymi.
     
