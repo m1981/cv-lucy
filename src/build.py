@@ -1,7 +1,7 @@
 import yaml
-import sys
 import os
 import base64
+import copy
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 
@@ -16,68 +16,67 @@ def deep_merge(base, override):
     return base
 
 
+def render_and_save(data, template, output_filename):
+    """Funkcja pomocnicza do renderowania i zapisywania pliku HTML"""
+    output_html = template.render(data)
+    output_path = Path('output') / output_filename
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(output_html)
+    print(f"[+] Wygenerowano: {output_filename}")
+
+
 def main():
-    # 1. Ustalenie ścieżek w nowej architekturze
+    print("Rozpoczynam generowanie CV...\n")
+
     base_yaml_path = Path('data/base.yaml')
+    apps_dir = Path('data/applications')
+    os.makedirs('output', exist_ok=True)
 
-    if len(sys.argv) > 1:
-        app_yaml_path = Path(sys.argv[1])
-        output_filename = f"cv_{app_yaml_path.stem}.html"
-    else:
-        app_yaml_path = None
-        output_filename = "cv_base.html"
-
-    # 2. Wczytanie bazy (Single Source of Truth)
+    # 1. Wczytanie bazy (Single Source of Truth)
     if not base_yaml_path.exists():
         print(f"[BŁĄD] Nie znaleziono pliku bazowego: {base_yaml_path}")
-        sys.exit(1)
+        return
 
     with open(base_yaml_path, 'r', encoding='utf-8') as f:
-        cv_data = yaml.safe_load(f)
+        base_data = yaml.safe_load(f)
 
-    # 3. Wczytanie i nałożenie nadpisań (jeśli podano plik profilu)
-    if app_yaml_path and app_yaml_path.exists():
-        with open(app_yaml_path, 'r', encoding='utf-8') as f:
-            app_data = yaml.safe_load(f)
-            if app_data:
-                cv_data = deep_merge(cv_data, app_data)
-        print(f"[*] Nałożono profil: {app_yaml_path.name}")
-    else:
-        print("[*] Generowanie wersji bazowej (brak profilu).")
-
-    # 4. Magia Base64 - osadzanie zdjęcia w HTML
-    photo_path_str = cv_data.get('personal_info', {}).get('photo_path')
+    # 2. Magia Base64 - robimy to tylko raz dla bazy
+    photo_path_str = base_data.get('personal_info', {}).get('photo_path')
     if photo_path_str:
         photo_path = Path(photo_path_str)
         if photo_path.exists():
             with open(photo_path, "rb") as img_file:
                 encoded_string = base64.b64encode(img_file.read()).decode('utf-8')
-                # Rozpoznanie formatu (png/jpg)
                 ext = photo_path.suffix.lower().replace('.', '')
                 mime_type = f"image/{ext}" if ext in ['png', 'jpeg', 'jpg'] else "image/png"
-                # Podmiana ścieżki na gotowy kod Base64
-                cv_data['personal_info']['photo_path'] = f"data:{mime_type};base64,{encoded_string}"
+                base_data['personal_info']['photo_path'] = f"data:{mime_type};base64,{encoded_string}"
         else:
-            print(f"[!] Ostrzeżenie: Nie znaleziono zdjęcia pod ścieżką: '{photo_path}'")
+            print(f"[!] Ostrzeżenie: Nie znaleziono zdjęcia: '{photo_path}'")
 
-    # 5. Konfiguracja Jinja2 i ładowanie szablonu
+    # 3. Konfiguracja Jinja2
     env = Environment(loader=FileSystemLoader('templates'))
     try:
         template = env.get_template('template.html')
     except Exception as e:
-        print(f"[BŁĄD] Nie można załadować szablonu 'templates/template.html': {e}")
-        sys.exit(1)
+        print(f"[BŁĄD] Nie można załadować szablonu: {e}")
+        return
 
-    # 6. Renderowanie i zapis
-    output_html = template.render(cv_data)
+    # 4. Generowanie wersji bazowej (czyste CV bez nadpisań)
+    render_and_save(base_data, template, "cv_base.html")
 
-    os.makedirs('output', exist_ok=True)
-    output_path = Path('output') / output_filename
+    # 5. Automatyczne generowanie wszystkich profili z folderu applications/
+    if apps_dir.exists():
+        for app_file in apps_dir.glob('*.yaml'):
+            with open(app_file, 'r', encoding='utf-8') as f:
+                app_data = yaml.safe_load(f)
 
-    with open(output_path, 'w', encoding='utf-8') as f:
-        f.write(output_html)
+            if app_data:
+                # KLUCZOWE: Tworzymy głęboką kopię bazy, żeby jej nie "zabrudzić"
+                merged_data = deep_merge(copy.deepcopy(base_data), app_data)
+                output_filename = f"cv_{app_file.stem}.html"
+                render_and_save(merged_data, template, output_filename)
 
-    print(f"[+] Sukces! Plik wygenerowany w: {output_path.absolute()}")
+    print("\nZakończono pomyślnie! Wszystkie pliki znajdują się w folderze 'output/'.")
 
 
 if __name__ == "__main__":
