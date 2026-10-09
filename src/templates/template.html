@@ -34,11 +34,19 @@
         /* --- KONTENER GŁÓWNY (KARTKA A4) --- */
         .cv-container {
             width: 210mm;
-            height: 297mm; /* ZMIENIONO na sztywną wysokość A4 */
+            height: 297mm;
             background-color: var(--main-bg);
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             display: flex;
-            overflow: hidden; /* Zapobiega wylewaniu się na 2 stronę */
+            flex-direction: column; /* Układ pionowy: Kolumny na górze, RODO na dole */
+            overflow: hidden;
+        }
+
+        /* --- WRAPPER DLA KOLUMN --- */
+        .columns-wrapper {
+            display: flex;
+            flex-direction: row; /* Lewa i prawa kolumna obok siebie */
+            flex-grow: 1;        /* Wypycha RODO na sam dół */
         }
 
         /* --- LEWA KOLUMNA (SIDEBAR) --- */
@@ -46,7 +54,6 @@
             width: 35%;
             background-color: var(--sidebar-bg);
             color: var(--sidebar-text);
-            /* ZMNIEJSZONO: paddingi i odstępy (gap) */
             padding: 30px 25px;
             display: flex;
             flex-direction: column;
@@ -60,7 +67,6 @@
         }
 
         .photo {
-            /* ZMNIEJSZONO: rozmiar zdjęcia */
             width: 130px;
             height: 130px;
             border-radius: 50%;
@@ -72,7 +78,7 @@
         .contact-info {
             display: flex;
             flex-direction: column;
-            gap: 10px; /* ZMNIEJSZONO */
+            gap: 10px;
             font-size: 0.85rem;
             font-weight: 300;
         }
@@ -95,7 +101,7 @@
             font-weight: 600;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            margin-bottom: 10px; /* ZMNIEJSZONO */
+            margin-bottom: 10px;
             padding-bottom: 5px;
             border-bottom: 1px solid rgba(255,255,255,0.3);
         }
@@ -107,7 +113,7 @@
         }
 
         .sidebar ul li {
-            margin-bottom: 5px; /* ZMNIEJSZONO */
+            margin-bottom: 5px;
             position: relative;
             padding-left: 12px;
         }
@@ -137,7 +143,6 @@
         /* --- PRAWA KOLUMNA (MAIN CONTENT) --- */
         .main-content {
             width: 65%;
-            /* ZMNIEJSZONO: paddingi i odstępy */
             padding: 35px 35px;
             display: flex;
             flex-direction: column;
@@ -145,7 +150,7 @@
         }
 
         .header h1 {
-            font-size: 2rem; /* ZMNIEJSZONO */
+            font-size: 2rem;
             font-weight: 300;
             letter-spacing: 3px;
             color: var(--accent-color);
@@ -175,12 +180,12 @@
             text-transform: uppercase;
             border-bottom: 2px solid var(--accent-color);
             padding-bottom: 5px;
-            margin-bottom: 12px; /* ZMNIEJSZONO */
+            margin-bottom: 12px;
             margin-top: 5px;
         }
 
         .job {
-            margin-bottom: 12px; /* ZMNIEJSZONO */
+            margin-bottom: 12px;
         }
 
         .job-company {
@@ -205,12 +210,24 @@
         .job ul {
             list-style-type: disc;
             padding-left: 20px;
-            font-size: 0.85rem; /* ZMNIEJSZONO */
+            font-size: 0.85rem;
             color: #444;
         }
 
         .job ul li {
-            margin-bottom: 2px; /* ZMNIEJSZONO */
+            margin-bottom: 2px;
+        }
+
+        /* --- KLAUZULA RODO --- */
+        .rodo {
+            font-size: 0.65rem;
+            color: #888;
+            text-align: justify;
+            line-height: 1.2;
+            padding: 15px 35px;
+            background-color: var(--main-bg);
+            border-top: 1px solid #eaeaea;
+            width: 100%;
         }
 
         /* --- USTAWIENIA DO DRUKU --- */
@@ -230,7 +247,7 @@
 
             @page {
                 size: A4;
-                margin: 0 !important; /* Wymuszenie braku marginesów */
+                margin: 0 !important;
             }
 
             * {
@@ -242,81 +259,97 @@
 </head>
 <body>
     <div class="cv-container">
-        <!-- LEWA KOLUMNA -->
-        <aside class="sidebar">
-            <div class="photo-container">
-                <img src="{{ personal_info.photo_path }}" alt="Zdjęcie profilowe" class="photo">
-            </div>
 
-            <div class="contact-info">
-                <div class="contact-item">
-                    <span>{{ personal_info.phone }}</span>
+        <!-- WRAPPER TRZYMAJĄCY OBIE KOLUMNY -->
+        <div class="columns-wrapper">
+
+            <!-- LEWA KOLUMNA -->
+            <aside class="sidebar">
+                <div class="photo-container">
+                    <img src="{{ personal_info.photo_path }}" alt="Zdjęcie profilowe" class="photo">
                 </div>
-                <div class="contact-item">
-                    <span>{{ personal_info.email }}</span>
+
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <svg class="contact-icon" viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                        <span>{{ personal_info.phone }}</span>
+                    </div>
+                    <div class="contact-item">
+                        <svg class="contact-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        <span>{{ personal_info.email }}</span>
+                    </div>
+                    <div class="contact-item">
+                        <svg class="contact-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                        <span>{{ personal_info.location }}</span>
+                    </div>
                 </div>
-                <div class="contact-item">
-                    <span>{{ personal_info.location }}</span>
-                </div>
-            </div>
 
-            <div class="sidebar-section">
-                <h2>Umiejętności</h2>
-                <ul>
-                    {% for skill in skills %}
-                        <li>{{ skill }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="sidebar-section">
-                <h2>Edukacja</h2>
-                {% for edu in education %}
-                    <p style="text-decoration: underline;">{{ edu.school }}</p>
-                    <p>{{ edu.location }} {{ edu.years }}</p>
-                    <p class="bold-text">{{ edu.degree }}</p>
-                    <p class="italic-text">{{ edu.field }}</p>
-                {% endfor %}
-            </div>
-
-            <div class="sidebar-section">
-                <h2>Szkolenia</h2>
-                {% for training in trainings %}
-                    <p class="bold-text" style="text-transform: none;">{{ training.title }}</p>
-                    <p style="margin-bottom: 10px;">{{ training.description }}</p>
-                {% endfor %}
-            </div>
-        </aside>
-
-        <!-- PRAWA KOLUMNA -->
-        <main class="main-content">
-            <header class="header">
-                <h1>{{ personal_info.name }}</h1>
-                <h2>{{ personal_info.title }}</h2>
-            </header>
-
-            <!-- Filtr replace zamienia entery z YAML na tagi <br> w HTML -->
-            <p class="summary">
-                {{ personal_info.summary | replace('\n', '<br>') | safe }}
-            </p>
-
-            <section class="experience">
-                <h3 class="section-title">Doświadczenie Zawodowe</h3>
-
-                {% for job in experience %}
-                <div class="job">
-                    {% if job.company %}<div class="job-company">{{ job.company }}</div>{% endif %}
-                    <div class="job-title">{{ job.title }}</div>
-                    <div class="job-date">{{ job.dates }}</div>
+                <div class="sidebar-section">
+                    <h2>Umiejętności</h2>
                     <ul>
-                        {% for task in job.tasks %}
-                            <li>{{ task }}</li>
+                        {% for skill in skills %}
+                            <li>{{ skill }}</li>
                         {% endfor %}
                     </ul>
                 </div>
-                {% endfor %}
-            </section>
-        </main>
+
+                <div class="sidebar-section">
+                    <h2>Edukacja</h2>
+                    {% for edu in education %}
+                        <p style="text-decoration: underline;">{{ edu.school }}</p>
+                        <p>{{ edu.location }} {{ edu.years }}</p>
+                        <p class="bold-text">{{ edu.degree }}</p>
+                        <p class="italic-text">{{ edu.field }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="sidebar-section">
+                    <h2>Szkolenia</h2>
+                    {% for training in trainings %}
+                        <p class="bold-text" style="text-transform: none;">{{ training.title }}</p>
+                        <p style="margin-bottom: 10px;">{{ training.description }}</p>
+                    {% endfor %}
+                </div>
+            </aside>
+
+            <!-- PRAWA KOLUMNA -->
+            <main class="main-content">
+                <header class="header">
+                    <h1>{{ personal_info.name }}</h1>
+                    <h2>{{ personal_info.title }}</h2>
+                </header>
+
+                <p class="summary">
+                    {{ personal_info.summary | replace('\n', '<br>') | safe }}
+                </p>
+
+                <section class="experience">
+                    <h3 class="section-title">Doświadczenie Zawodowe</h3>
+
+                    {% for job in experience %}
+                    <div class="job">
+                        {% if job.company %}<div class="job-company">{{ job.company }}</div>{% endif %}
+                        <div class="job-title">{{ job.title }}</div>
+                        <div class="job-date">{{ job.dates }}</div>
+                        <ul>
+                            {% for task in job.tasks %}
+                                <li>{{ task }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endfor %}
+                </section>
+            </main>
+
+        </div> <!-- KONIEC .columns-wrapper -->
+
+        <!-- KLAUZULA RODO (POZA KOLUMNAMI, NA CAŁĄ SZEROKOŚĆ) -->
+        {% if rodo_clause %}
+        <div class="rodo">
+            {{ rodo_clause }}
+        </div>
+        {% endif %}
+
     </div>
 </body>
 </html>
