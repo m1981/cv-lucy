@@ -1,10 +1,26 @@
+# ==============================================================================
+# [SYSTEM PROMPT DLA MODELI LLM / AI]
+# ZASADY:
+# 1. NIE KOPIUJ całego tego pliku. Zwróć tylko te sekcje i klucze, które zmieniasz
+#    lub dodajesz. Mój skrypt (Python deep_merge) sam połączy to z bazą.
+# 2. KOMENTARZE Z MOTYWACJĄ: Do każdej zmienionej sekcji lub dodanego punktu
+#    MUSISZ dodać komentarz YAML (#), wyjaśniający dlaczego dokonałeś tej zmiany
+#    w kontekście wymagań z ogłoszenia o pracę.
+#
+# PRZYKŁAD OCZEKIWANEGO WYNIKU (dla oferty wymagającej j. angielskiego):
+# personal_info:
+#   summary: "..." # Zmodyfikowano podsumowanie, aby podkreślić znajomość j. angielskiego, co było kluczowe w ofercie.
+# skills:
+#   - "Biegła znajomość języka angielskiego (C1)" # Dodano, ponieważ oferta wymagała płynnej komunikacji z klientem zagranicznym.
+# ==============================================================================
+
 personal_info:
   name: "Lucyna Nakiewicz"
   title: "Asystentka Notariusza"
   phone: "793-653-854"
   email: "lucyna.nakiewicz@gmail.com"
   location: "Bydgoszcz"
-  photo_path: "assets/lucy.png" # Zostaw puste "", jeśli nie masz
+  photo_path: "assets/lucy.png"
   summary: >
     Posiadam 15 lat doświadczenia w administracji samorządowej, gdzie rozwijałam swoje umiejętności komunikacyjne i organizacyjne. Doskonale radzę sobie z obsługą korespondencji oraz z różnymi pracami administracyjnymi.
     
