@@ -1,0 +1,6 @@
+@echo off
+echo Sprawdzanie zaleznosci...
+pip install pyyaml jinja2 >nul 2>&1
+echo Generowanie CV...
+python build.py
+pause

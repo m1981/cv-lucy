@@ -1,0 +1,66 @@
+personal_info:
+  name: "Lucyna Nakiewicz"
+  title: "Asystentka Notariusza"
+  phone: "793-653-854"
+  email: "lucyna.nakiewicz@gmail.com"
+  location: "Bydgoszcz"
+  photo_path: "lucy.png" # Zostaw puste "", jeśli nie masz
+  summary: >
+    Posiadam 15 lat doświadczenia w administracji samorządowej, gdzie rozwijałam swoje umiejętności komunikacyjne i organizacyjne. Doskonale radzę sobie z obsługą korespondencji oraz z różnymi pracami administracyjnymi.
+    
+    Aplikuję na stanowisko Asystentki notariusza przekonana, że moje dotychczasowe doświadczenie i kompetencje zapewnią efektywną realizację powierzonych zadań.
+
+skills:
+  - "Biegła obsługa komputera"
+  - "MS Office"
+  - "Wysoko rozwinięte umiejętności komunikacyjne"
+  - "Umiejętność efektywnej współpracy"
+  - "Dobre zdolności organizacyjne i ustalania priorytetów"
+  - "Dokładność i odpowiedzialność"
+  - "Umiejętność pracy w zespole i pod presją czasu"
+  - "Wysoka kultura osobista"
+
+education:
+  - school: "Uniwersytet Technologiczno-Przyrodniczy"
+    location: "w Bydgoszczy"
+    years: "2002 - 2007"
+    degree: "MAGISTER INŻYNIER"
+    field: "Agronomia i Agrobiznes"
+
+trainings:
+  - title: "Kreatywność i rozwiązywanie problemów"
+    description: "szkolenie przeprowadzone na zlecenie Urzędu Miasta Bydgoszczy, potwierdzone zaświadczeniem"
+  - title: "Obsługa klienta trudnego i roszczeniowego"
+    description: "szkolenie przeprowadzone na zlecenie Urzędu Miasta Bydgoszczy, potwierdzone zaświadczeniem"
+
+experience:
+  - company: "Pracownia Projektowa Sieć I w Bydgoszczy"
+    title: "ASYSTENTKA PROJEKTANTA"
+    dates: "06-12/2024"
+    tasks:
+      - "Wydawanie projektów decyzji o warunkach zabudowy oraz o lokalizacji inwestycji celu publicznego dla gmin"
+      - "Analiza i interpretacja dokumentacji zgodnie z przepisami"
+      - "Przygotowywanie kompleksowych i precyzyjnych map w formie papierowej niezbędnych do tworzenia projektów decyzji o WZ"
+
+  - company: "Urząd Miasta Bydgoszczy - Wydział Podatków i Opłat Lokalnych"
+    title: "INSPEKTORKA, PODINSPEKTORKA"
+    dates: "05/2012 - 04/2023"
+    tasks:
+      - "Prowadzenie dokumentacji dotyczącej podatku od nieruchomości zgodnie z obowiązującymi przepisami"
+      - "Wydawanie decyzji administracyjnych oraz przygotowywanie pism"
+      - "Analiza i potwierdzanie autentyczności danych przekazanych przez klientów w kontekście obowiązujących przepisów podatkowych"
+      - "Współpraca z różnymi wydziałami i instytucjami"
+      - "Profesjonalna obsługa klientów"
+      - "Wprowadzanie i weryfikowanie informacji w bazie danych z zapewnieniem ich aktualności i niezawodności"
+      - "Obsługa telefoniczna klientów oraz udzielanie odpowiedzi na zapytania dokonywane drogą pisemną i elektroniczną"
+      - "Przygotowywanie raportów, zestawień i analiz"
+      - "Dokonywanie naliczeń i korekt w podatku od nieruchomości"
+      - "Koordynacja obiegu dokumentów oraz wsparcie w zadaniach biurowych i administracyjnych"
+
+  - company: ""
+    title: "POMOC ADMINISTRACYJNA"
+    dates: "08/2008 - 04/2012"
+    tasks:
+      - "Przygotowywanie dokumentów dotyczących podatku od nieruchomości dla osób fizycznych"
+      - "Dokonywanie naliczeń i korekt w podatku od nieruchomości"
+      - "Wysyłanie korespondencji oraz ewidencjonowanie i archiwizowanie niezbędnej dokumentacji podatkowej"

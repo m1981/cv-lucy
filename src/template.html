@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ personal_info.name }} - CV</title>
+    <style>
+        /* --- ZMIENNE KOLORYSTYCZNE --- */
+        :root {
+            --sidebar-bg: #6b6284;
+            --sidebar-text: #ffffff;
+            --main-bg: #ffffff;
+            --main-text: #333333;
+            --accent-color: #6b6284;
+        }
+
+        /* --- RESET I BAZA --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+            color: var(--main-text);
+            line-height: 1.35;
+            font-size: 14px;
+        }
+
+        /* --- KONTENER GŁÓWNY (KARTKA A4) --- */
+        .cv-container {
+            width: 210mm;
+            height: 297mm; /* ZMIENIONO na sztywną wysokość A4 */
+            background-color: var(--main-bg);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            overflow: hidden; /* Zapobiega wylewaniu się na 2 stronę */
+        }
+
+        /* --- LEWA KOLUMNA (SIDEBAR) --- */
+        .sidebar {
+            width: 35%;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            /* ZMNIEJSZONO: paddingi i odstępy (gap) */
+            padding: 30px 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .photo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 5px;
+        }
+
+        .photo {
+            /* ZMNIEJSZONO: rozmiar zdjęcia */
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #8a81a3;
+            border: 4px solid rgba(255,255,255,0.2);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* ZMNIEJSZONO */
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .contact-icon {
+            width: 18px;
+            height: 18px;
+            fill: var(--sidebar-text);
+            flex-shrink: 0;
+        }
+
+        .sidebar h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px; /* ZMNIEJSZONO */
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 5px; /* ZMNIEJSZONO */
+            position: relative;
+            padding-left: 12px;
+        }
+
+        .sidebar ul li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--sidebar-text);
+        }
+
+        .sidebar-section p {
+            font-size: 0.85rem;
+            font-weight: 300;
+            margin-bottom: 3px;
+        }
+
+        .sidebar-section .bold-text {
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .sidebar-section .italic-text {
+            font-style: italic;
+        }
+
+        /* --- PRAWA KOLUMNA (MAIN CONTENT) --- */
+        .main-content {
+            width: 65%;
+            /* ZMNIEJSZONO: paddingi i odstępy */
+            padding: 35px 35px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .header h1 {
+            font-size: 2rem; /* ZMNIEJSZONO */
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .header h2 {
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            color: #555;
+            text-transform: uppercase;
+        }
+
+        .summary {
+            font-size: 0.9rem;
+            text-align: justify;
+            color: #444;
+        }
+
+        .main-content h3.section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 5px;
+            margin-bottom: 12px; /* ZMNIEJSZONO */
+            margin-top: 5px;
+        }
+
+        .job {
+            margin-bottom: 12px; /* ZMNIEJSZONO */
+        }
+
+        .job-company {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+
+        .job-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: underline;
+            margin-bottom: 2px;
+        }
+
+        .job-date {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .job ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            font-size: 0.85rem; /* ZMNIEJSZONO */
+            color: #444;
+        }
+
+        .job ul li {
+            margin-bottom: 2px; /* ZMNIEJSZONO */
+        }
+
+        /* --- USTAWIENIA DO DRUKU --- */
+        @media print {
+            body {
+                background-color: transparent;
+                padding: 0;
+                margin: 0;
+            }
+
+            .cv-container {
+                width: 100%;
+                height: 297mm;
+                box-shadow: none;
+                margin: 0;
+            }
+
+            @page {
+                size: A4;
+                margin: 0 !important; /* Wymuszenie braku marginesów */
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cv-container">
+        <!-- LEWA KOLUMNA -->
+        <aside class="sidebar">
+            <div class="photo-container">
+                <img src="{{ personal_info.photo_path }}" alt="Zdjęcie profilowe" class="photo">
+            </div>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>{{ personal_info.phone }}</span>
+                </div>
+                <div class="contact-item">
+                    <span>{{ personal_info.email }}</span>
+                </div>
+                <div class="contact-item">
+                    <span>{{ personal_info.location }}</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h2>Umiejętności</h2>
+                <ul>
+                    {% for skill in skills %}
+                        <li>{{ skill }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h2>Edukacja</h2>
+                {% for edu in education %}
+                    <p style="text-decoration: underline;">{{ edu.school }}</p>
+                    <p>{{ edu.location }} {{ edu.years }}</p>
+                    <p class="bold-text">{{ edu.degree }}</p>
+                    <p class="italic-text">{{ edu.field }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="sidebar-section">
+                <h2>Szkolenia</h2>
+                {% for training in trainings %}
+                    <p class="bold-text" style="text-transform: none;">{{ training.title }}</p>
+                    <p style="margin-bottom: 10px;">{{ training.description }}</p>
+                {% endfor %}
+            </div>
+        </aside>
+
+        <!-- PRAWA KOLUMNA -->
+        <main class="main-content">
+            <header class="header">
+                <h1>{{ personal_info.name }}</h1>
+                <h2>{{ personal_info.title }}</h2>
+            </header>
+
+            <!-- Filtr replace zamienia entery z YAML na tagi <br> w HTML -->
+            <p class="summary">
+                {{ personal_info.summary | replace('\n', '<br>') | safe }}
+            </p>
+
+            <section class="experience">
+                <h3 class="section-title">Doświadczenie Zawodowe</h3>
+
+                {% for job in experience %}
+                <div class="job">
+                    {% if job.company %}<div class="job-company">{{ job.company }}</div>{% endif %}
+                    <div class="job-title">{{ job.title }}</div>
+                    <div class="job-date">{{ job.dates }}</div>
+                    <ul>
+                        {% for task in job.tasks %}
+                            <li>{{ task }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </section>
+        </main>
+    </div>
+</body>
+</html>
