@@ -34,12 +34,11 @@
         /* --- KONTENER GŁÓWNY (KARTKA A4) --- */
         .cv-container {
             width: 210mm;
-            height: 297mm;
+            min-height: 297mm; /* Pozwala rosnąć na kolejne strony */
             background-color: var(--main-bg);
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             display: flex;
-            flex-direction: column; /* Układ pionowy: Kolumny na górze, RODO na dole */
-            overflow: hidden;
+            flex-direction: column; /* NAPRAWA: Układ pionowy (Kolumny na górze, RODO na dole) */
         }
 
         /* --- WRAPPER DLA KOLUMN --- */
@@ -47,12 +46,16 @@
             display: flex;
             flex-direction: row; /* Lewa i prawa kolumna obok siebie */
             flex-grow: 1;        /* Wypycha RODO na sam dół */
+
+            /* TRIK EKSPERTA: Gwarantuje, że fioletowe tło sięgnie do samego dołu,
+               nawet jeśli prawa kolumna jest znacznie dłuższa i przechodzi na 2 stronę! */
+            background: linear-gradient(to right, var(--sidebar-bg) 0%, var(--sidebar-bg) 35%, var(--main-bg) 35%, var(--main-bg) 100%);
         }
 
         /* --- LEWA KOLUMNA (SIDEBAR) --- */
         .sidebar {
-            width: 35%;
-            background-color: var(--sidebar-bg);
+            width: 35%; /* SZEROKOŚĆ SIDEBARA */
+            /* Tło jest teraz obsługiwane przez gradient we wrapperze, ale zostawiamy kolor tekstu */
             color: var(--sidebar-text);
             padding: 30px 25px;
             display: flex;
@@ -142,7 +145,7 @@
 
         /* --- PRAWA KOLUMNA (MAIN CONTENT) --- */
         .main-content {
-            width: 65%;
+            width: 65%; /* SZEROKOŚĆ PRAWEJ KOLUMNY */
             padding: 35px 35px;
             display: flex;
             flex-direction: column;
@@ -240,7 +243,8 @@
 
             .cv-container {
                 width: 100%;
-                height: 297mm;
+                min-height: 297mm;
+                height: auto;
                 box-shadow: none;
                 margin: 0;
             }
@@ -253,6 +257,12 @@
             * {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
+            }
+
+            /* Zapobiega ucinaniu sekcji w połowie przy przejściu na nową stronę */
+            .job, .sidebar-section {
+                page-break-inside: avoid;
+                break-inside: avoid;
             }
         }
     </style>
