@@ -17,14 +17,14 @@
 personal_info:
   name: "Lucyna Nakiewicz"
   title: "Asystentka Notariusza"
-  phone: "793-653-854"
-  email: "lucyna.nakiewicz@gmail.com"
+  phone: "+48 793653854"
+  email: "l.nakiewicz@wp.pl"
   location: "Bydgoszcz"
   photo_path: "assets/lucy.png"
   summary: >
-    Posiadam 15 lat doświadczenia w administracji samorządowej, gdzie rozwijałam swoje umiejętności komunikacyjne i organizacyjne. Doskonale radzę sobie z obsługą korespondencji oraz z różnymi pracami administracyjnymi.
+    Posiadam 15 lat doświadczenia w administracji samorządowej, gdzie rozwijałam swoje umiejętności komunikacyjne oraz organizacyjne. Moje silne zdolności analityczne i kreatywne pozwalają mi na skuteczne rozwiązywanie problemów.
     
-    Aplikuję na stanowisko Asystentki notariusza przekonana, że moje dotychczasowe doświadczenie i kompetencje zapewnią efektywną realizację powierzonych zadań.
+    Aplikuję na stanowisko Asystentki w kancelarii prawnej przekonana, że moje dotychczasowe doświadczenie i kompetencje zapewnią efektywną realizację powierzonych zadań.
 
 skills:
   - "Biegła obsługa komputera"
@@ -33,7 +33,6 @@ skills:
   - "Umiejętność efektywnej współpracy"
   - "Dobre zdolności organizacyjne i ustalania priorytetów"
   - "Dokładność i odpowiedzialność"
-  - "Umiejętność pracy w zespole i pod presją czasu"
 
 education:
   - school: "Uniwersytet Technologiczno-Przyrodniczy"
@@ -58,7 +57,7 @@ experience:
       - "Przygotowywanie kompleksowych i precyzyjnych map w formie papierowej niezbędnych do tworzenia projektów decyzji o WZ"
 
   - company: "Urząd Miasta Bydgoszczy - Wydział Podatków i Opłat Lokalnych"
-    title: "INSPEKTORKA, PODINSPEKTORKA"
+    title: "INSPEKTORKA"
     dates: "05/2012 - 04/2023"
     tasks:
       - "Prowadzenie dokumentacji dotyczącej podatku od nieruchomości zgodnie z obowiązującymi przepisami"
