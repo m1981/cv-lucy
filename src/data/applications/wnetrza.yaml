@@ -1,0 +1,10 @@
+# Wariant dla SML STUDIO, iteracja 1: nagłówek i podsumowanie zawodowe.
+# Pozostałe sekcje generator pobiera z base.yaml.
+personal_info:
+  # Eksponuje doświadczenie przydatne w obsłudze klientów i organizacji biura nowego oddziału.
+  title: "Obsługa klienta i administracja"
+  # Łączy potwierdzone doświadczenie z zadaniami w ofercie oraz wskazanym przez użytkownika zainteresowaniem wnętrzami.
+  summary: >
+    Mam wieloletnie doświadczenie w obsłudze klientów i pracy administracyjnej oraz doświadczenie na stanowisku asystentki projektanta w pracowni projektowej.
+    W obecnej pracy zajmuję się korespondencją, weryfikacją i koordynacją dokumentów oraz umów z kontrahentami, a także aktualizacją danych o inwestycjach i rozliczeniach w systemach ERP.
+    Interesuję się dekoracją i architekturą. Chcę wykorzystać swoje doświadczenie w obsłudze klientów i organizacji pracy biurowej w firmie zajmującej się wykończeniem wnętrz.
