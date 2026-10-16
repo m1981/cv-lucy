@@ -48,6 +48,15 @@ trainings:
     description: "szkolenie przeprowadzone na zlecenie Urzędu Miasta Bydgoszczy, potwierdzone zaświadczeniem"
 
 experience:
+  # Uzupełniono bazowe CV o aktualne zatrudnienie zgodnie z informacją użytkownika.
+  - company: "DUO DRAFT we Wrocławiu"
+    title: "ASYSTENTKA"
+    dates: "01/2025 - obecnie"
+    tasks:
+      - "Zarządzanie korespondencją firmową i archiwizacja dokumentów"
+      - "Weryfikacja i koordynacja dokumentów i umów z kontrahentami"
+      - "Aktualizacja danych o inwestycjach i rozliczeniach w wewnętrznych systemach ERP"
+
   - company: "Pracownia Projektowa Sieć I w Bydgoszczy"
     title: "ASYSTENTKA PROJEKTANTA"
     dates: "06/2024 - 12/2024"
