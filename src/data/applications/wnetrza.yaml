@@ -2,7 +2,7 @@
 # Pozostałe sekcje generator pobiera z base.yaml.
 personal_info:
   # Eksponuje doświadczenie przydatne w obsłudze klientów i organizacji biura nowego oddziału.
-  title: "Obsługa klienta i administracja"
+  title: "Koordynato Biura Projektowego"
   # Łączy potwierdzone doświadczenie z zadaniami w ofercie oraz wskazanym przez użytkownika zainteresowaniem wnętrzami.
   # Wyraża gotowość do koordynowania biura nowego oddziału, bez przypisywania wcześniejszego doświadczenia w zarządzaniu biurem.
   # Skrócono zdania i usunięto powtórzenia; szczegóły obowiązków pozostają w sekcji doświadczenia.
